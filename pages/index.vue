@@ -6,18 +6,18 @@
         <h2 class="text-tertiary-text text-xl font-medium mb-14">
           Employee Management System
         </h2>
-        <form>
+        <form @submit.prevent="handleSubmit">
           <div class="mb-5">
             <label class="text-primary-text block mb-3" for="name"
               >Email
             </label>
             <input
+              v-model="form.email"
               class="w-full border border-solid border-line-border rounded-2xl text-tertiary-text py-3 px-5 focus:outline-none focus:border-primary focus:shadow-md"
               type="email"
               name="email"
               id="email"
               placeholder="example@email.com"
-              required="false"
             />
           </div>
           <div class="mb-5">
@@ -25,21 +25,20 @@
               >Password
             </label>
             <input
+              v-model="form.password"
               class="w-full border border-solid border-line-border rounded-2xl text-tertiary-text py-3 px-5 focus:outline-none focus:border-primary focus:shadow-md"
               type="password"
               name="password"
               id="password"
               placeholder="********"
-              required="false"
             />
           </div>
-          <div>
-            <input
-              class="w-full bg-primary text-white py-3 rounded-2xl cursor-pointer shadow-md"
-              type="submit"
-              value="Sign in"
-            />
-          </div>
+          <button
+            class="w-full bg-primary text-white py-3 rounded-2xl cursor-pointer shadow-md"
+            type="submit"
+          >
+            Sign in
+          </button>
         </form>
       </div>
     </div>
@@ -53,7 +52,22 @@
 </template>
 
 <script setup>
-definePageMeta({
-  layout: false,
+// definePageMeta({
+//   layout: false,
+// });
+
+useHead({
+  title: "Login",
 });
+
+const { login } = useSanctumAuth();
+
+const form = ref({
+  email: "",
+  password: "",
+});
+
+async function handleSubmit() {
+  await login(form.value);
+}
 </script>

@@ -4,8 +4,11 @@
       <ul>
         <li><NuxtLink to="#">Employees</NuxtLink></li>
         <li><NuxtLink to="#">Work Units</NuxtLink></li>
-        <li><NuxtLink to="#">Logout</NuxtLink></li>
+        <li v-if="user">Udh</li>
+        <li v-if="!user">Blm</li>
+        <li v-if="user">{{ user.name }}</li>
       </ul>
+      <button @click.prevent="handleLogout">Logout</button>
     </aside>
     <div class="w-full">
       <header
@@ -26,4 +29,17 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup lang="ts">
+interface MyCustomUser {
+  name: string;
+  email: string;
+}
+
+const user = useSanctumUser<MyCustomUser>();
+
+const { logout } = useSanctumAuth();
+
+function handleLogout() {
+  logout();
+}
+</script>
