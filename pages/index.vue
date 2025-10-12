@@ -12,7 +12,7 @@
               >Email
             </label>
             <input
-              class="w-full border border-solid border-input-border rounded-2xl text-tertiary-text py-3 px-5 focus:outline-none focus:border-primary focus:shadow-md"
+              class="w-full border border-solid border-line-border rounded-2xl text-tertiary-text py-3 px-5 focus:outline-none focus:border-primary focus:shadow-md"
               type="email"
               name="email"
               id="email"
@@ -25,7 +25,7 @@
               >Password
             </label>
             <input
-              class="w-full border border-solid border-input-border rounded-2xl text-tertiary-text py-3 px-5 focus:outline-none focus:border-primary focus:shadow-md"
+              class="w-full border border-solid border-line-border rounded-2xl text-tertiary-text py-3 px-5 focus:outline-none focus:border-primary focus:shadow-md"
               type="password"
               name="password"
               id="password"
@@ -52,4 +52,8 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+definePageMeta({
+  layout: false,
+});
+</script>

@@ -10,7 +10,7 @@ export default {
         unselected: "#64748B",
         background: "#F5F7FA",
         danger: "#FF4B4A",
-        "input-border": "#DFEAF2",
+        "line-border": "#DFEAF2",
       },
     },
   },
