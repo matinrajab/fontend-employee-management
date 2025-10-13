@@ -60,6 +60,10 @@ useHead({
   title: "Login",
 });
 
+definePageMeta({
+  middleware: "auth",
+});
+
 const { login } = useSanctumAuth();
 
 const form = ref({
