@@ -8,7 +8,9 @@
         <li v-if="!isAuthenticated">Blm</li>
         <li v-if="user">{{ user.email }}</li>
       </ul>
-      <button @click.prevent="handleLogout">Logout</button>
+      <button @click.prevent="handleLogout" v-if="isAuthenticated">
+        Logout
+      </button>
     </aside>
     <div class="w-full">
       <header

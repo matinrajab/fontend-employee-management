@@ -51,7 +51,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 // definePageMeta({
 //   layout: false,
 // });
@@ -61,7 +61,7 @@ useHead({
 });
 
 definePageMeta({
-  middleware: "auth",
+  middleware: ["sanctum:guest"],
 });
 
 const { login } = useSanctumAuth();
