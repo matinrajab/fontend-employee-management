@@ -72,11 +72,6 @@ const form = ref({
 });
 
 async function handleSubmit() {
-  try {
-    await login(form.value);
-    navigateTo("/employees");
-  } catch (error) {
-    console.error("Login gagal: ", error);
-  }
+  await login(form.value);
 }
 </script>

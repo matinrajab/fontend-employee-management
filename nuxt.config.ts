@@ -15,7 +15,7 @@ export default defineNuxtConfig({
     mode: "cookie",
     redirect: {
       keepRequestedRoute: false,
-      onLogin: "/",
+      onLogin: "/employees",
       onLogout: "/",
       onAuthOnly: "/",
       onGuestOnly: "/employees",
