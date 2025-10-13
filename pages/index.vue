@@ -18,6 +18,9 @@
               id="email"
               placeholder="example@email.com"
             />
+            <span class="text-danger" v-if="errors.email">
+              {{ errors.email[0] }}
+            </span>
           </div>
           <div class="mb-5">
             <label class="text-primary-text block mb-3" for="name"
@@ -30,6 +33,9 @@
               id="password"
               placeholder="********"
             />
+            <span class="text-danger" v-if="errors.password">
+              {{ errors.password[0] }}
+            </span>
           </div>
           <button
             class="w-full bg-primary text-white py-3 rounded-2xl cursor-pointer shadow-md"
@@ -50,6 +56,7 @@
 </template>
 
 <script setup lang="ts">
+import { FetchError } from "ofetch";
 // definePageMeta({
 //   layout: false,
 // });
@@ -69,7 +76,19 @@ const form = ref({
   password: "",
 });
 
+interface ValidationError {
+  [key: string]: string[];
+}
+
+const errors = ref<ValidationError>({});
+
 async function handleSubmit() {
-  await login(form.value);
+  try {
+    await login(form.value);
+  } catch (e) {
+    if (e instanceof FetchError && e.response?.status === 422) {
+      errors.value = e.response._data.errors;
+    }
+  }
 }
 </script>
