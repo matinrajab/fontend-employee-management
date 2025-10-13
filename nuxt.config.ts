@@ -20,5 +20,11 @@ export default defineNuxtConfig({
       onAuthOnly: "/",
       onGuestOnly: "/employees",
     },
+    endpoints: {
+      csrf: "/sanctum/csrf-cookie",
+      login: "/api/login",
+      logout: "/api/logout",
+      user: "/api/user",
+    },
   },
 });
