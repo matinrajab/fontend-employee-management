@@ -4,4 +4,8 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup lang="ts">
+definePageMeta({
+  middleware: ["sanctum:auth"],
+});
+</script>

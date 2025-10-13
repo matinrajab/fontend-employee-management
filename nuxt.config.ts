@@ -13,5 +13,12 @@ export default defineNuxtConfig({
   sanctum: {
     baseUrl: "http://localhost:8000",
     mode: "cookie",
+    redirect: {
+      keepRequestedRoute: false,
+      onLogin: "/",
+      onLogout: "/",
+      onAuthOnly: "/",
+      onGuestOnly: "/",
+    },
   },
 });
