@@ -1,12 +1,7 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-  interface User {
-    name: string;
-    email: string;
-  }
+  const { isAuthenticated } = useSanctumAuth();
 
-  const user = useSanctumUser<User>();
-
-  if (user.value && to.path === "/") {
+  if (isAuthenticated.value && to.path === "/") {
     return navigateTo("/employees");
   }
 });
