@@ -7,6 +7,12 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: "Employee Management System",
+      link: [
+        {
+          rel: "stylesheet",
+          href: "https://fonts.googleapis.com/icon?family=Material+Icons",
+        },
+      ],
     },
   },
 
