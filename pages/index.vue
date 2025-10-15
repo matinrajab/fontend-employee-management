@@ -57,15 +57,13 @@
 
 <script setup lang="ts">
 import { FetchError } from "ofetch";
-// definePageMeta({
-//   layout: false,
-// });
 
 useHead({
   title: "Login",
 });
 
 definePageMeta({
+  layout: false,
   middleware: ["sanctum:guest"],
 });
 

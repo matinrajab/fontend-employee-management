@@ -72,15 +72,12 @@
 </template>
 
 <script setup lang="ts">
-// definePageMeta({
-//   layout: false,
-// });
-
 useHead({
   title: "Register",
 });
 
 definePageMeta({
+  layout: false,
   middleware: ["sanctum:guest"],
 });
 
