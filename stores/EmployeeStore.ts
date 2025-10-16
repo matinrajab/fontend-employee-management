@@ -56,8 +56,6 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
   }
 
   async function deleteEmployee(id: number) {
-    if (!confirm("Apakah anda yakin ingin menghapus pegawai ini?")) return;
-
     try {
       isLoading.value = true;
       await useSanctumFetch(`/api/employee/${id}`, {
@@ -66,7 +64,7 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
 
       if (data.value) {
         data.value.data = data.value.data.filter((emp) => emp.id !== id);
-        data.value.meta.total -= 1; // update total
+        data.value.meta.total -= 1;
       }
     } catch (error) {
       console.error("Gagal menghapus pegawai: ", error);

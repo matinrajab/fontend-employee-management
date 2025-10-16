@@ -10,6 +10,22 @@ const employeeStore = useEmployeeStore();
 const { isLoading, data, currentPage } = storeToRefs(employeeStore);
 
 await useAsyncData("employees", () => employeeStore.getEmployees());
+
+const showConfirm = ref(false);
+const selectedEmployeeId = ref<number | null>(null);
+
+function openConfirm(id: number) {
+  selectedEmployeeId.value = id;
+  showConfirm.value = true;
+}
+
+async function confirmDelete() {
+  if (selectedEmployeeId.value !== null) {
+    await employeeStore.deleteEmployee(selectedEmployeeId.value);
+  }
+  showConfirm.value = false;
+  selectedEmployeeId.value = null;
+}
 </script>
 
 <template>
@@ -77,7 +93,7 @@ await useAsyncData("employees", () => employeeStore.getEmployees());
               </td>
               <td class="px-2 py-1 text-xs text-danger">
                 <button
-                  @click="employeeStore.deleteEmployee(employee.id)"
+                  @click="openConfirm(employee.id)"
                   class="hover:underline text-danger"
                 >
                   Delete
@@ -121,6 +137,14 @@ await useAsyncData("employees", () => employeeStore.getEmployees());
           Next
         </button>
       </div>
+
+      <ConfirmModal
+        :show="showConfirm"
+        title="Konfirmasi Hapus"
+        message="Apakah Anda yakin ingin menghapus pegawai ini?"
+        @cancel="showConfirm = false"
+        @confirm="confirmDelete"
+      />
     </div>
   </div>
 </template>
