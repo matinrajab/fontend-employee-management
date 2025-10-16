@@ -8,57 +8,42 @@
         </h2>
         <form @submit.prevent="handleRegister">
           <div class="mb-5">
-            <label class="text-primary-text block mb-3" for="name">Name </label>
-            <input
-              v-model="form.name"
-              class="w-full border border-solid border-line-border rounded-2xl text-tertiary-text py-3 px-5 focus:outline-none focus:border-primary focus:shadow-md"
-              type="text"
+            <MainFormInput
               id="name"
+              label="Name"
+              type="text"
+              v-model="form.name"
               placeholder="Your Name"
             />
           </div>
           <div class="mb-5">
-            <label class="text-primary-text block mb-3" for="name"
-              >Email
-            </label>
-            <input
-              v-model="form.email"
-              class="w-full border border-solid border-line-border rounded-2xl text-tertiary-text py-3 px-5 focus:outline-none focus:border-primary focus:shadow-md"
-              type="email"
+            <MainFormInput
               id="email"
+              label="Email"
+              type="email"
+              v-model="form.email"
               placeholder="example@email.com"
             />
           </div>
           <div class="mb-5">
-            <label class="text-primary-text block mb-3" for="name"
-              >Password
-            </label>
-            <input
-              v-model="form.password"
-              class="w-full border border-solid border-line-border rounded-2xl text-tertiary-text py-3 px-5 focus:outline-none focus:border-primary focus:shadow-md"
-              type="password"
+            <MainFormInput
               id="password"
+              label="Password"
+              type="password"
+              v-model="form.password"
               placeholder="********"
             />
           </div>
           <div class="mb-5">
-            <label class="text-primary-text block mb-3" for="name"
-              >Password Confirmation
-            </label>
-            <input
-              v-model="form.password_confirmation"
-              class="w-full border border-solid border-line-border rounded-2xl text-tertiary-text py-3 px-5 focus:outline-none focus:border-primary focus:shadow-md"
+            <MainFormInput
+              id="password-confirm"
+              label="Password Confirmation"
               type="password"
-              id="password"
+              v-model="form.password_confirmation"
               placeholder="********"
             />
           </div>
-          <button
-            class="w-full bg-primary text-white py-3 rounded-2xl cursor-pointer shadow-md"
-            type="submit"
-          >
-            Sign up
-          </button>
+          <MainButton text="Sign up" />
         </form>
       </div>
     </div>
