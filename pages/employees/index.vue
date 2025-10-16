@@ -7,7 +7,7 @@ definePageMeta({
 });
 
 const employeeStore = useEmployeeStore();
-const { isLoading, data } = storeToRefs(employeeStore);
+const { isLoading, data, currentPage } = storeToRefs(employeeStore);
 
 await useAsyncData("employees", () => employeeStore.getEmployees());
 </script>
@@ -26,7 +26,9 @@ await useAsyncData("employees", () => employeeStore.getEmployees());
           class="table-auto bg-white min-w-full border-collapse rounded-3xl"
         >
           <thead>
-            <tr class="border-b border-solid border-line-border">
+            <tr
+              class="border-b border-solid border-line-border text-tertiary-text"
+            >
               <th class="font-normal px-2 py-1 text-xs">No</th>
               <th class="font-normal px-2 py-1 text-xs">NIP</th>
               <th class="font-normal px-2 py-1 text-xs">Nama</th>
@@ -53,7 +55,9 @@ await useAsyncData("employees", () => employeeStore.getEmployees());
               :key="employee.id"
               class="border-b border-solid border-line-border"
             >
-              <td class="px-2 py-1 text-xs">{{ index + 1 }}</td>
+              <td class="px-2 py-1 text-xs">
+                {{ (currentPage - 1) * data.meta.per_page + index + 1 }}
+              </td>
               <td class="px-2 py-1 text-xs">{{ employee.nip }}</td>
               <td class="px-2 py-1 text-xs">{{ employee.name }}</td>
               <td class="px-2 py-1 text-xs">{{ employee.birth_place }}</td>
@@ -77,6 +81,40 @@ await useAsyncData("employees", () => employeeStore.getEmployees());
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <div
+        v-if="data?.meta"
+        class="flex justify-center items-center gap-2 mt-6 text-sm text-secondary-text flex-wrap"
+      >
+        <button
+          class="px-3 py-1 border rounded-lg disabled:opacity-50"
+          :disabled="currentPage === 1"
+          @click="employeeStore.changePage(currentPage - 1)"
+        >
+          Prev
+        </button>
+
+        <button
+          v-for="page in data.meta.last_page"
+          :key="page"
+          class="px-3 py-1 border rounded-lg transition"
+          :class="{
+            'bg-primary text-white': currentPage === page,
+            'hover:bg-gray-100': currentPage !== page,
+          }"
+          @click="employeeStore.changePage(page)"
+        >
+          {{ page }}
+        </button>
+
+        <button
+          class="px-3 py-1 border rounded-lg disabled:opacity-50"
+          :disabled="currentPage === data.meta.last_page"
+          @click="employeeStore.changePage(currentPage + 1)"
+        >
+          Next
+        </button>
       </div>
     </div>
   </div>

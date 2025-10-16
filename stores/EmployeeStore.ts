@@ -35,17 +35,25 @@ interface EmployeeResponse {
 export const useEmployeeStore = defineStore("employeeStore", () => {
   const data = ref<EmployeeResponse | null>(null);
   const isLoading = ref(false);
+  const currentPage = ref(1);
 
   async function getEmployees(page = 1) {
-    isLoading.value = true;
-
-    const response = await useSanctumFetch<EmployeeResponse>(
-      `/api/employees?page=${page}`
-    );
-    data.value = response.data.value;
-
-    isLoading.value = false;
+    try {
+      isLoading.value = true;
+      const response = await useSanctumFetch<EmployeeResponse>(
+        `/api/employees?page=${page}`
+      );
+      data.value = response.data.value;
+      currentPage.value = page;
+    } finally {
+      isLoading.value = false;
+    }
   }
 
-  return { data, isLoading, getEmployees };
+  function changePage(page: number) {
+    if (page < 1 || (data.value && page > data.value.meta.last_page)) return;
+    getEmployees(page);
+  }
+
+  return { data, isLoading, currentPage, getEmployees, changePage };
 });
