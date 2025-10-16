@@ -71,6 +71,36 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
     getEmployees(page);
   }
 
+  async function getEmployeeById(id: number) {
+    try {
+      isLoading.value = true;
+      const response = await useSanctumFetch(`/api/employee/${id}`);
+      return response.data.value.data;
+    } catch (error) {
+      console.error("Gagal mengambil data pegawai:", error);
+      return null;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  async function updateEmployee(id: number, formData: FormData) {
+    try {
+      isLoading.value = true;
+      await useSanctumFetch(`/api/employee/${id}`, {
+        method: "PUT",
+        body: formData,
+      });
+
+      await getEmployees(currentPage.value);
+      navigateTo("/employees");
+    } catch (error) {
+      console.error("Gagal mengupdate pegawai:", error);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   async function deleteEmployee(id: number) {
     try {
       isLoading.value = true;
@@ -101,5 +131,7 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
     getEmployees,
     changePage,
     deleteEmployee,
+    getEmployeeById,
+    updateEmployee,
   };
 });

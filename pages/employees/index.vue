@@ -91,7 +91,7 @@ async function confirmDelete() {
               <td class="px-2 py-1 text-xs">{{ employee.phone_number }}</td>
               <td class="px-2 py-1 text-xs">{{ employee.npwp }}</td>
               <td class="px-2 py-1 text-xs">
-                <NuxtLink to="#">Edit</NuxtLink>
+                <NuxtLink :to="`/edit-employee/${employee.id}`">Edit</NuxtLink>
               </td>
               <td class="px-2 py-1 text-xs text-danger">
                 <button
