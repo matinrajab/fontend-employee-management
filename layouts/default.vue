@@ -51,7 +51,7 @@
         </button>
       </div>
     </aside>
-    <div class="w-full">
+    <div>
       <header
         class="flex justify-between items-center border-b border-solid border-line-border py-5 px-10"
       >
