@@ -32,12 +32,52 @@ const referenceData = ref({
   religions: [],
 });
 
+const errors = ref({
+  birth_date: "",
+  gender_id: "",
+  golongan_id: "",
+  religion_id: "",
+});
+
+function validateForm() {
+  errors.value = {
+    birth_date: "",
+    gender_id: "",
+    golongan_id: "",
+    religion_id: "",
+  };
+
+  let valid = true;
+
+  if (!form.value.birth_date) {
+    errors.value.birth_date = "Tanggal lahir harus diisi";
+    valid = false;
+  }
+  if (!form.value.gender_id) {
+    errors.value.gender_id = "Jenis kelamin harus dipilih";
+    valid = false;
+  }
+  if (!form.value.golongan_id) {
+    errors.value.golongan_id = "Golongan harus dipilih";
+    valid = false;
+  }
+  if (!form.value.religion_id) {
+    errors.value.religion_id = "Agama harus dipilih";
+    valid = false;
+  }
+
+  return valid;
+}
+
 const response = await useSanctumFetch("/api/employee-create");
 referenceData.value = response.data.value;
 
 async function handleSubmit() {
-  const formData = new FormData();
+  if (!validateForm()) {
+    return;
+  }
 
+  const formData = new FormData();
   Object.entries(form.value).forEach(([key, value]) => {
     if (value !== null && value !== undefined) {
       formData.append(key, value);
@@ -72,21 +112,6 @@ async function handleSubmit() {
           <div>
             <p class="mb-3">Tanggal Lahir</p>
             <div class="relative">
-              <div
-                class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
-              >
-                <svg
-                  class="w-4 h-4 text-gray-500"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
-                  />
-                </svg>
-              </div>
               <input
                 datepicker-format="yyyy-mm-dd"
                 v-model="form.birth_date"
@@ -94,6 +119,9 @@ async function handleSubmit() {
                 type="date"
                 class="border border-line-border rounded-2xl text-sm focus:ring-primary focus:border-primary block w-full ps-10 p-2.5"
               />
+              <span class="text-danger" v-if="errors.birth_date">
+                {{ errors.birth_date }}
+              </span>
             </div>
           </div>
           <div>
@@ -115,6 +143,10 @@ async function handleSubmit() {
                 {{ gender.name }}
               </label>
             </div>
+
+            <span class="text-danger" v-if="errors.gender_id">
+              {{ errors.gender_id }}
+            </span>
           </div>
         </div>
         <div class="grid grid-cols-2 gap-10 mb-5">
@@ -134,6 +166,9 @@ async function handleSubmit() {
                 {{ gol.name }}
               </option>
             </select>
+            <span class="text-danger" v-if="errors.golongan_id">
+              {{ errors.golongan_id }}
+            </span>
           </div>
           <div>
             <label for="eselon" class="block mb-2">Eselon</label>
@@ -178,6 +213,9 @@ async function handleSubmit() {
                 {{ rel.name }}
               </option>
             </select>
+            <span class="text-danger" v-if="errors.religion_id">
+              {{ errors.religion_id }}
+            </span>
           </div>
           <MainFormInput
             id="unit-kerja"
