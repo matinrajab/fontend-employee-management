@@ -32,8 +32,10 @@ async function confirmDelete() {
   <div class="bg-background">
     <h1 class="p-6 text-primary-text font-medium text-2xl">Employees table</h1>
 
-    <div v-if="isLoading">
-      <p>Loading...</p>
+    <div v-if="isLoading" class="flex justify-center items-center h-64">
+      <div
+        class="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"
+      ></div>
     </div>
 
     <div v-else class="px-6 pb-6">
