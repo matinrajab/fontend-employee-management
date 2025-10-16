@@ -54,21 +54,6 @@ async function handleSubmit() {
 
 <template>
   <div class="bg-background p-6">
-    <p>nip: {{ form.nip }}</p>
-    <p>name: {{ form.name }}</p>
-    <p>birth_place: {{ form.birth_place }}</p>
-    <p>address: {{ form.address }}</p>
-    <p>birth_date: {{ form.birth_date }}</p>
-    <p>gender_id: {{ form.gender_id }}</p>
-    <p>golongan_id: {{ form.golongan_id }}</p>
-    <p>eselon_id: {{ form.eselon_id }}</p>
-    <p>position: {{ form.position }}</p>
-    <p>work_place: {{ form.work_place }}</p>
-    <p>religion_id: {{ form.religion_id }}</p>
-    <p>work_unit: {{ form.work_unit }}</p>
-    <p>phone_number: {{ form.phone_number }}</p>
-    <p>npwp: {{ form.npwp }}</p>
-    <p>photo: {{ form.photo }}</p>
     <div class="bg-white rounded-3xl p-6">
       <form @submit.prevent="handleSubmit">
         <div class="grid grid-cols-2 gap-10 mb-5">
