@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-5">
+  <div>
     <label :for="id" class="text-primary-text block mb-3">{{ label }}</label>
 
     <input
