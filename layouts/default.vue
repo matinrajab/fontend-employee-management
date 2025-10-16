@@ -10,13 +10,17 @@
       <div class="w-fit mx-auto">
         <ul class="gap-2 flex flex-col my-4">
           <li>
-            <NuxtLink to="#">
-              <div
-                class="bg-primary-bg text-primary font-medium px-4 py-2 rounded-full flex gap-2"
-              >
-                <i class="material-icons mr-2">groups</i>
-                <span>Employee List</span>
-              </div>
+            <NuxtLink
+              to="/employees"
+              class="font-medium px-4 py-2 rounded-full flex gap-2 items-center"
+              :class="
+                $route.path === '/employees'
+                  ? 'bg-primary-bg text-primary'
+                  : 'text-unselected hover:bg-primary-bg hover:text-primary'
+              "
+            >
+              <i class="material-icons mr-2">groups</i>
+              <span>Employee List</span>
             </NuxtLink>
           </li>
           <li>
@@ -36,11 +40,17 @@
             </NuxtLink>
           </li>
           <li>
-            <NuxtLink to="#">
-              <div class="text-unselected font-medium px-4 py-2 flex gap-2">
-                <i class="material-icons mr-2">person_add</i>
-                <span>Add Employee</span>
-              </div>
+            <NuxtLink
+              to="/add-employee"
+              class="font-medium px-4 py-2 rounded-full flex gap-2 items-center"
+              :class="
+                $route.path === '/add-employee'
+                  ? 'bg-primary-bg text-primary'
+                  : 'text-unselected hover:bg-primary-bg hover:text-primary'
+              "
+            >
+              <i class="material-icons mr-2">person_add</i>
+              <span>Add Employee</span>
             </NuxtLink>
           </li>
         </ul>
@@ -70,7 +80,7 @@
             <i class="material-icons text-secondary-text text-3xl">menu</i>
           </button>
           <h1 class="font-semibold text-2xl lg:text-3xl text-secondary-text">
-            Employee List
+            {{ pageTitle }}
           </h1>
         </div>
 
@@ -111,6 +121,13 @@ const isSidebarOpen = ref(false);
 function toggleSidebar() {
   isSidebarOpen.value = !isSidebarOpen.value;
 }
+
+const route = useRoute();
+
+const pageTitle = computed(() => {
+  if (route.path === "/employees") return "Employee List";
+  if (route.path === "/add-employee") return "Add Employee";
+});
 </script>
 
 <style scoped>
