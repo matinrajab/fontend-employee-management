@@ -76,7 +76,12 @@ await useAsyncData("employees", () => employeeStore.getEmployees());
                 <NuxtLink to="#">Edit</NuxtLink>
               </td>
               <td class="px-2 py-1 text-xs text-danger">
-                <NuxtLink to="#">Delete</NuxtLink>
+                <button
+                  @click="employeeStore.deleteEmployee(employee.id)"
+                  class="hover:underline text-danger"
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           </tbody>

@@ -55,5 +55,32 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
     getEmployees(page);
   }
 
-  return { data, isLoading, currentPage, getEmployees, changePage };
+  async function deleteEmployee(id: number) {
+    if (!confirm("Apakah anda yakin ingin menghapus pegawai ini?")) return;
+
+    try {
+      isLoading.value = true;
+      await useSanctumFetch(`/api/employee/${id}`, {
+        method: "DELETE",
+      });
+
+      if (data.value) {
+        data.value.data = data.value.data.filter((emp) => emp.id !== id);
+        data.value.meta.total -= 1; // update total
+      }
+    } catch (error) {
+      console.error("Gagal menghapus pegawai: ", error);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  return {
+    data,
+    isLoading,
+    currentPage,
+    getEmployees,
+    changePage,
+    deleteEmployee,
+  };
 });
