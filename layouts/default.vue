@@ -12,7 +12,7 @@
           <li>
             <NuxtLink to="#">
               <div
-                class="bg-primary-bg text-primary px-4 py-2 rounded-full flex gap-2"
+                class="bg-primary-bg text-primary font-medium px-4 py-2 rounded-full flex gap-2"
               >
                 <i class="material-icons mr-2">groups</i>
                 <span>Employee List</span>
@@ -21,7 +21,7 @@
           </li>
           <li>
             <NuxtLink to="#">
-              <div class="px-4 py-2 flex gap-2">
+              <div class="text-unselected font-medium px-4 py-2 flex gap-2">
                 <i class="material-icons mr-2">search</i>
                 <span>Search Employee</span>
               </div>
@@ -29,7 +29,7 @@
           </li>
           <li>
             <NuxtLink to="#">
-              <div class="px-4 py-2 flex gap-2">
+              <div class="text-unselected font-medium px-4 py-2 flex gap-2">
                 <i class="material-icons mr-2">account_tree</i>
                 <span>Work Unit</span>
               </div>
@@ -37,7 +37,7 @@
           </li>
           <li>
             <NuxtLink to="#">
-              <div class="px-4 py-2 flex gap-2">
+              <div class="text-unselected font-medium px-4 py-2 flex gap-2">
                 <i class="material-icons mr-2">person_add</i>
                 <span>Add Employee</span>
               </div>
@@ -45,7 +45,7 @@
           </li>
         </ul>
         <button
-          class="px-4 py-2 flex gap-2"
+          class="text-unselected font-medium px-4 py-2 flex gap-2"
           @click.prevent="handleLogout"
           v-if="isAuthenticated"
         >
