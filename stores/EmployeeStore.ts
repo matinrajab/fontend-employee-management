@@ -37,6 +37,22 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
   const isLoading = ref(false);
   const currentPage = ref(1);
 
+  async function addEmployee(formData: FormData) {
+    try {
+      isLoading.value = true;
+      await useSanctumFetch("/api/employee", {
+        method: "POST",
+        body: formData,
+      });
+      await getEmployees(currentPage.value);
+      navigateTo("/employees");
+    } catch (error) {
+      console.error("Gagal menambahkan pegawai:", error);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   async function getEmployees(page = 1) {
     try {
       isLoading.value = true;
@@ -77,6 +93,7 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
     data,
     isLoading,
     currentPage,
+    addEmployee,
     getEmployees,
     changePage,
     deleteEmployee,
