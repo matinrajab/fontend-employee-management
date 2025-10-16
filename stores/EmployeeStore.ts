@@ -82,6 +82,10 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
         data.value.data = data.value.data.filter((emp) => emp.id !== id);
         data.value.meta.total -= 1;
       }
+
+      if (data.value?.data.length == 0) {
+        changePage(currentPage.value - 1);
+      }
     } catch (error) {
       console.error("Gagal menghapus pegawai: ", error);
     } finally {
