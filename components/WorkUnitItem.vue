@@ -17,7 +17,7 @@
         v-if="isExpanded"
         class="p-5 border-t border-line-border bg-background"
       >
-        <EmployeeTable :unitId="unit.id" />
+        <WorkUnitTable :unitId="unit.id" />
       </div>
     </transition>
   </div>
