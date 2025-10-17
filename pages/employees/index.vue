@@ -7,7 +7,7 @@ definePageMeta({
 });
 
 const employeeStore = useEmployeeStore();
-const { isLoading, data, currentPage } = storeToRefs(employeeStore);
+const { employees, meta, isLoading } = storeToRefs(employeeStore);
 
 await useAsyncData("employees", () => employeeStore.getEmployees());
 
@@ -67,12 +67,12 @@ async function confirmDelete() {
           </thead>
           <tbody>
             <tr
-              v-for="(employee, index) in data?.data || []"
+              v-for="(employee, index) in employees"
               :key="employee.id"
               class="border-b border-solid border-line-border"
             >
               <td class="px-2 py-1 text-xs">
-                {{ (currentPage - 1) * data.meta.per_page + index + 1 }}
+                {{ (meta.current_page - 1) * meta.per_page + index + 1 }}
               </td>
               <td class="px-2 py-1 text-xs">{{ employee.nip }}</td>
               <td class="px-2 py-1 text-xs">{{ employee.name }}</td>
@@ -107,24 +107,24 @@ async function confirmDelete() {
       </div>
 
       <div
-        v-if="data?.meta"
+        v-if="meta"
         class="flex justify-center items-center gap-2 mt-6 text-sm text-secondary-text flex-wrap"
       >
         <button
           class="px-3 py-1 border rounded-lg disabled:opacity-50"
-          :disabled="currentPage === 1"
-          @click="employeeStore.changePage(currentPage - 1)"
+          :disabled="meta.current_page === 1"
+          @click="employeeStore.changePage(meta.current_page - 1)"
         >
           Prev
         </button>
 
         <button
-          v-for="page in data.meta.last_page"
+          v-for="page in meta.last_page"
           :key="page"
           class="px-3 py-1 border rounded-lg transition"
           :class="{
-            'bg-primary text-white': currentPage === page,
-            'hover:bg-gray-100': currentPage !== page,
+            'bg-primary text-white': meta.current_page === page,
+            'hover:bg-gray-100': meta.current_page !== page,
           }"
           @click="employeeStore.changePage(page)"
         >
@@ -133,8 +133,8 @@ async function confirmDelete() {
 
         <button
           class="px-3 py-1 border rounded-lg disabled:opacity-50"
-          :disabled="currentPage === data.meta.last_page"
-          @click="employeeStore.changePage(currentPage + 1)"
+          :disabled="meta.current_page === meta.last_page"
+          @click="employeeStore.changePage(meta.current_page + 1)"
         >
           Next
         </button>

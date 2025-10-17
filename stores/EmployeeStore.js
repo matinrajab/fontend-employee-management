@@ -1,50 +1,19 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-interface Employee {
-  id: number;
-  nip: string | null;
-  name: string;
-  birth_place: string | null;
-  address: string | null;
-  birth_date: string | null;
-  gender: string | null;
-  golongan: string | null;
-  eselon: string | null;
-  position: string | null;
-  work_place: string | null;
-  religion: string | null;
-  work_unit: string | null;
-  phone_number: string | null;
-  npwp: string | null;
-  photo: string | null;
-}
-
-interface PaginationMeta {
-  current_page: number;
-  last_page: number;
-  total: number;
-}
-
-interface EmployeeResponse {
-  data: Employee[];
-  meta: PaginationMeta;
-  links: Record<string, any>;
-}
-
 export const useEmployeeStore = defineStore("employeeStore", () => {
-  const data = ref<EmployeeResponse | null>(null);
-  const isLoading = ref(false);
-  const currentPage = ref(1);
+  const employees = ref([]);
+  const meta = ref(null);
+  const isLoading = ref(true);
 
-  async function addEmployee(formData: FormData) {
+  async function addEmployee(formData) {
     try {
       isLoading.value = true;
       await useSanctumFetch("/api/employee", {
         method: "POST",
         body: formData,
       });
-      await getEmployees(currentPage.value);
+      await getEmployees(meta.value.current_page);
       navigateTo("/employees");
     } catch (error) {
       console.error("Gagal menambahkan pegawai:", error);
@@ -56,22 +25,20 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
   async function getEmployees(page = 1) {
     try {
       isLoading.value = true;
-      const response = await useSanctumFetch<EmployeeResponse>(
-        `/api/employees?page=${page}`
-      );
-      data.value = response.data.value;
-      currentPage.value = page;
+      const response = await useSanctumFetch(`/api/employees?page=${page}`);
+      employees.value = response.data.value.data;
+      meta.value = response.data.value.meta;
     } finally {
       isLoading.value = false;
     }
   }
 
-  function changePage(page: number) {
-    if (page < 1 || (data.value && page > data.value.meta.last_page)) return;
+  function changePage(page) {
+    if (page < 1 || (employees.value && page > meta.value.last_page)) return;
     getEmployees(page);
   }
 
-  async function getEmployeeById(id: number) {
+  async function getEmployeeById(id) {
     try {
       isLoading.value = true;
       const response = await useSanctumFetch(`/api/employee/${id}`);
@@ -84,7 +51,7 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
     }
   }
 
-  async function updateEmployee(id: number, formData: FormData) {
+  async function updateEmployee(id, formData) {
     try {
       isLoading.value = true;
       await useSanctumFetch(`/api/employee/${id}`, {
@@ -92,7 +59,7 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
         body: formData,
       });
 
-      await getEmployees(currentPage.value);
+      await getEmployees(meta.value.current_page);
       navigateTo("/employees");
     } catch (error) {
       console.error("Gagal mengupdate pegawai:", error);
@@ -101,20 +68,20 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
     }
   }
 
-  async function deleteEmployee(id: number) {
+  async function deleteEmployee(id) {
     try {
       isLoading.value = true;
       await useSanctumFetch(`/api/employee/${id}`, {
         method: "DELETE",
       });
 
-      if (data.value) {
-        data.value.data = data.value.data.filter((emp) => emp.id !== id);
-        data.value.meta.total -= 1;
+      if (employees.value) {
+        employees.value = employees.value.filter((emp) => emp.id !== id);
+        meta.value.total -= 1;
       }
 
-      if (data.value?.data.length == 0) {
-        changePage(currentPage.value - 1);
+      if (employees.value.length == 0) {
+        changePage(meta.value.current_page - 1);
       }
     } catch (error) {
       console.error("Gagal menghapus pegawai: ", error);
@@ -124,9 +91,9 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
   }
 
   return {
-    data,
+    employees,
+    meta,
     isLoading,
-    currentPage,
     addEmployee,
     getEmployees,
     changePage,
