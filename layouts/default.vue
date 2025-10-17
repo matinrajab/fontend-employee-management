@@ -96,19 +96,8 @@
           </h1>
         </div>
 
-        <nav class="flex-1 max-w-md ml-auto">
-          <div class="relative w-full">
-            <i
-              class="material-icons absolute left-4 top-1/2 -translate-y-1/2 text-tertiary-text"
-              >search</i
-            >
-            <input
-              class="w-full bg-background rounded-full text-tertiary-text py-3 pl-12 pr-6 focus:outline-none focus:border-primary focus:shadow-md"
-              type="text"
-              id="name"
-              placeholder="Search by name"
-            />
-          </div>
+        <nav class="flex-1 max-w-xs ml-auto">
+          <MainButton text="Cetak Daftar Pegawai" @click="downloadPDF" />
         </nav>
       </header>
       <main class="flex-1 max-w-full overflow-x-hidden">
@@ -142,6 +131,10 @@ const pageTitle = computed(() => {
   if (route.path === "/work-unit") return "Work Unit";
   if (route.path === "/search-employees") return "Search Employees";
 });
+
+function downloadPDF() {
+  window.open("http://localhost:8000/api/generate-pdf", "_blank");
+}
 </script>
 
 <style scoped>
