@@ -81,7 +81,9 @@ async function confirmDelete() {
               <td class="px-2 py-1 text-xs">{{ employee.birth_place }}</td>
               <td class="px-2 py-1 text-xs">{{ employee.address }}</td>
               <td class="px-2 py-1 text-xs">{{ employee.birth_date }}</td>
-              <td class="px-2 py-1 text-xs">{{ employee.gender }}</td>
+              <td class="px-2 py-1 text-xs">
+                {{ employee.gender == "Laki-laki" ? "L" : "P" }}
+              </td>
               <td class="px-2 py-1 text-xs">{{ employee.golongan }}</td>
               <td class="px-2 py-1 text-xs">{{ employee.eselon }}</td>
               <td class="px-2 py-1 text-xs">{{ employee.position }}</td>
