@@ -24,11 +24,17 @@
             </NuxtLink>
           </li>
           <li>
-            <NuxtLink to="#">
-              <div class="text-unselected font-medium px-4 py-2 flex gap-2">
-                <i class="material-icons mr-2">search</i>
-                <span>Search Employee</span>
-              </div>
+            <NuxtLink
+              to="/search-employees"
+              class="font-medium px-4 py-2 rounded-full flex gap-2 items-center"
+              :class="
+                $route.path === '/search-employees'
+                  ? 'bg-primary-bg text-primary'
+                  : 'text-unselected '
+              "
+            >
+              <i class="material-icons mr-2">search</i>
+              <span>Search Employees</span>
             </NuxtLink>
           </li>
           <li>
@@ -134,6 +140,7 @@ const pageTitle = computed(() => {
   if (route.path === "/employees") return "Employee List";
   if (route.path === "/add-employee") return "Add Employee";
   if (route.path === "/work-unit") return "Work Unit";
+  if (route.path === "/search-employees") return "Search Employees";
 });
 </script>
 

@@ -33,6 +33,20 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
     }
   }
 
+  async function searchEmployees(query, page = 1) {
+    try {
+      isLoading.value = true;
+      const params = new URLSearchParams({ ...query, page }).toString();
+      const response = await useSanctumFetch(`/api/search-employees?${params}`);
+      employees.value = response.data.value.data;
+      meta.value = response.data.value.meta;
+    } catch (error) {
+      console.error("Gagal mencari pegawai:", error);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   function changePage(page) {
     if (page < 1 || (employees.value && page > meta.value.last_page)) return;
     getEmployees(page);
@@ -96,6 +110,7 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
     isLoading,
     addEmployee,
     getEmployees,
+    searchEmployees,
     changePage,
     deleteEmployee,
     getEmployeeById,
