@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { useEmployeeStore } from "~/stores/EmployeeStore";
 
 definePageMeta({
@@ -12,9 +12,9 @@ const { isLoading, data, currentPage } = storeToRefs(employeeStore);
 await useAsyncData("employees", () => employeeStore.getEmployees());
 
 const showConfirm = ref(false);
-const selectedEmployeeId = ref<number | null>(null);
+const selectedEmployeeId = ref(null);
 
-function openConfirm(id: number) {
+function openConfirm(id) {
   selectedEmployeeId.value = id;
   showConfirm.value = true;
 }
@@ -32,10 +32,8 @@ async function confirmDelete() {
   <div class="bg-background">
     <h1 class="p-6 text-primary-text font-medium text-2xl">Employees table</h1>
 
-    <div v-if="isLoading" class="flex justify-center items-center h-64">
-      <div
-        class="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"
-      ></div>
+    <div v-if="isLoading">
+      <Loading />
     </div>
 
     <div v-else class="px-6 pb-6">

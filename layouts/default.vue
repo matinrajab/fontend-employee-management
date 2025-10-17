@@ -16,7 +16,7 @@
               :class="
                 $route.path === '/employees'
                   ? 'bg-primary-bg text-primary'
-                  : 'text-unselected hover:bg-primary-bg hover:text-primary'
+                  : 'text-unselected '
               "
             >
               <i class="material-icons mr-2">groups</i>
@@ -32,11 +32,17 @@
             </NuxtLink>
           </li>
           <li>
-            <NuxtLink to="#">
-              <div class="text-unselected font-medium px-4 py-2 flex gap-2">
-                <i class="material-icons mr-2">account_tree</i>
-                <span>Work Unit</span>
-              </div>
+            <NuxtLink
+              to="/work-unit"
+              class="font-medium px-4 py-2 rounded-full flex gap-2 items-center"
+              :class="
+                $route.path === '/work-unit'
+                  ? 'bg-primary-bg text-primary'
+                  : 'text-unselected '
+              "
+            >
+              <i class="material-icons mr-2">account_tree</i>
+              <span>Work Unit</span>
             </NuxtLink>
           </li>
           <li>
@@ -46,7 +52,7 @@
               :class="
                 $route.path === '/add-employee'
                   ? 'bg-primary-bg text-primary'
-                  : 'text-unselected hover:bg-primary-bg hover:text-primary'
+                  : 'text-unselected '
               "
             >
               <i class="material-icons mr-2">person_add</i>
@@ -127,6 +133,7 @@ const route = useRoute();
 const pageTitle = computed(() => {
   if (route.path === "/employees") return "Employee List";
   if (route.path === "/add-employee") return "Add Employee";
+  if (route.path === "/work-unit") return "Work Unit";
 });
 </script>
 
