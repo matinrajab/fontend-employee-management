@@ -10,11 +10,8 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
   async function addEmployee(formData) {
     try {
       isLoading.value = true;
-      await useSanctumFetch("/api/employee", {
-        method: "POST",
-        body: formData,
-      });
-      await getEmployees(meta.value.current_page);
+      await axiosClient.post("/api/employee", formData);
+
       navigateTo("/employees");
     } catch (error) {
       console.error("Gagal menambahkan pegawai:", error);
