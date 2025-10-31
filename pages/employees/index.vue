@@ -95,7 +95,7 @@ async function confirmDelete() {
               </td>
               <td class="px-2 py-1 text-xs text-danger">
                 <button
-                  @click="employeeStore.deleteEmployee(employee.id)"
+                  @click="openConfirm(employee.id)"
                   class="hover:underline text-danger"
                 >
                   Delete
