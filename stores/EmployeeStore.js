@@ -73,12 +73,10 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
   async function updateEmployee(id, formData) {
     try {
       isLoading.value = true;
-      await useSanctumFetch(`/api/employee/${id}`, {
-        method: "PUT",
-        body: formData,
-      });
 
-      await getEmployees(meta.value.current_page);
+      formData.append("_method", "PUT");
+      await axiosClient.post(`/api/employee/${id}`, formData);
+
       navigateTo("/employees");
     } catch (error) {
       console.error("Gagal mengupdate pegawai:", error);
