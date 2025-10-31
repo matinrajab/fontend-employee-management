@@ -27,9 +27,6 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
     try {
       isLoading.value = true;
       await axiosClient.get(`/api/employees?page=${page}`).then((response) => {
-        console.log("==============response===============");
-        console.log(response.data.data);
-        console.log(response.data.meta);
         employees.value = response.data.data;
         meta.value = response.data.meta;
       });
@@ -63,8 +60,11 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
   async function getEmployeeById(id) {
     try {
       isLoading.value = true;
-      const response = await useSanctumFetch(`/api/employee/${id}`);
-      return response.data.value.data;
+      return await axiosClient.get(`/api/employee/${id}`).then((response) => {
+        console.log("==============response===============");
+        console.log(response.data.data);
+        return response.data.data;
+      });
     } catch (error) {
       console.error("Gagal mengambil data pegawai:", error);
       return null;
