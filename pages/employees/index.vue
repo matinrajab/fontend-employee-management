@@ -9,7 +9,7 @@ definePageMeta({
 const employeeStore = useEmployeeStore();
 const { employees, meta, isLoading } = storeToRefs(employeeStore);
 
-await useAsyncData("employees", () => employeeStore.getEmployees());
+employeeStore.getEmployees();
 
 const showConfirm = ref(false);
 const selectedEmployeeId = ref(null);
@@ -95,7 +95,7 @@ async function confirmDelete() {
               </td>
               <td class="px-2 py-1 text-xs text-danger">
                 <button
-                  @click="openConfirm(employee.id)"
+                  @click="employeeStore.deleteEmployee(employee.id)"
                   class="hover:underline text-danger"
                 >
                   Delete

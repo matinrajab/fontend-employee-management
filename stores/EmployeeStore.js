@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import axiosClient from "~/axios";
 
 export const useEmployeeStore = defineStore("employeeStore", () => {
   const employees = ref([]);
@@ -25,9 +26,13 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
   async function getEmployees(page = 1) {
     try {
       isLoading.value = true;
-      const response = await useSanctumFetch(`/api/employees?page=${page}`);
-      employees.value = response.data.value.data;
-      meta.value = response.data.value.meta;
+      await axiosClient.get(`/api/employees?page=${page}`).then((response) => {
+        console.log("==============response===============");
+        console.log(response.data.data);
+        console.log(response.data.meta);
+        employees.value = response.data.data;
+        meta.value = response.data.meta;
+      });
     } finally {
       isLoading.value = false;
     }
@@ -85,18 +90,13 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
   async function deleteEmployee(id) {
     try {
       isLoading.value = true;
-      await useSanctumFetch(`/api/employee/${id}`, {
-        method: "DELETE",
-      });
+      await axiosClient.delete(`/api/employee/${id}`);
 
-      if (employees.value) {
-        employees.value = employees.value.filter((emp) => emp.id !== id);
-        meta.value.total -= 1;
-      }
-
-      if (employees.value.length == 0) {
-        changePage(meta.value.current_page - 1);
-      }
+      await getEmployees(
+        employees.value.length == 1
+          ? meta.value.current_page - 1
+          : meta.value.current_page
+      );
     } catch (error) {
       console.error("Gagal menghapus pegawai: ", error);
     } finally {
