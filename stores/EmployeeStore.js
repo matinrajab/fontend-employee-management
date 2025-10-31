@@ -42,9 +42,12 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
     try {
       isLoading.value = true;
       const params = new URLSearchParams({ ...query, page }).toString();
-      const response = await useSanctumFetch(`/api/search-employees?${params}`);
-      employees.value = response.data.value.data;
-      meta.value = response.data.value.meta;
+      await axiosClient
+        .get(`/api/search-employees?${params}`)
+        .then((response) => {
+          employees.value = response.data.data;
+          meta.value = response.data.meta;
+        });
     } catch (error) {
       console.error("Gagal mencari pegawai:", error);
     } finally {
