@@ -32,7 +32,7 @@ async function afterDelete() {
       <MainTable
         :employees="employees"
         :meta="meta"
-        :changePage="employeeStore.changePage"
+        :changePage="employeeStore.getEmployees"
         :afterDelete="afterDelete"
       />
     </div>

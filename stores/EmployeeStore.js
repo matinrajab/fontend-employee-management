@@ -49,11 +49,6 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
     }
   }
 
-  function changePage(page) {
-    if (page < 1 || (employees.value && page > meta.value.last_page)) return;
-    getEmployees(page);
-  }
-
   async function getEmployeeById(id) {
     try {
       isLoading.value = true;
@@ -103,7 +98,6 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
     addEmployee,
     getEmployees,
     searchEmployees,
-    changePage,
     deleteEmployee,
     getEmployeeById,
     updateEmployee,
