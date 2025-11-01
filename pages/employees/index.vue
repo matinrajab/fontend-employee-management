@@ -7,9 +7,12 @@ definePageMeta({
 });
 
 const employeeStore = useEmployeeStore();
-const { employees, meta, isLoading } = storeToRefs(employeeStore);
+const { employees, meta, isLoading, pageBeforeEdit } =
+  storeToRefs(employeeStore);
 
-employeeStore.getEmployees();
+pageBeforeEdit.value = "/employees";
+
+employeeStore.getEmployees(meta.value ? meta.value.current_page : 1);
 
 async function afterDelete() {
   await employeeStore.getEmployees(

@@ -6,6 +6,7 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
   const employees = ref([]);
   const meta = ref(null);
   const isLoading = ref(true);
+  const pageBeforeEdit = ref("");
 
   function $reset() {
     employees.value = [];
@@ -77,7 +78,7 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
       formData.append("_method", "PUT");
       await axiosClient.post(`/api/employee/${id}`, formData);
 
-      navigateTo("/employees");
+      navigateTo(pageBeforeEdit.value);
     } catch (error) {
       console.error("Gagal mengupdate pegawai:", error);
     } finally {
@@ -100,6 +101,7 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
     employees,
     meta,
     isLoading,
+    pageBeforeEdit,
     addEmployee,
     getEmployees,
     searchEmployees,
