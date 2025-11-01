@@ -3,12 +3,19 @@
     <div v-if="isLoading"><Loading /></div>
 
     <div v-else>
-      <MainTable :employees="employees" :meta="meta" @change="changePage" />
+      <MainTable
+        :employees="employees"
+        :meta="meta"
+        :changePage="fetchEmployees"
+        :afterDelete="afterDelete"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
+import axiosClient from "~/axios";
+
 const props = defineProps({
   unitId: Number,
 });
@@ -20,22 +27,24 @@ const isLoading = ref(true);
 async function fetchEmployees(page = 1) {
   try {
     isLoading.value = true;
-    const response = await useSanctumFetch(
-      `/api/work-unit/${props.unitId}?page=${page}`
-    );
-    employees.value = response.data.value.data;
-    meta.value = response.data.value.meta;
+    await axiosClient
+      .get(`/api/work-unit/${props.unitId}?page=${page}`)
+      .then((response) => {
+        employees.value = response.data.data;
+        meta.value = response.data.meta;
+      });
   } finally {
     isLoading.value = false;
   }
 }
 
-function changePage(page) {
-  if (page < 1 || page > meta.value.last_page) return;
-  fetchEmployees(page);
+async function afterDelete() {
+  fetchEmployees(
+    employees.value.length == 1
+      ? meta.value.current_page - 1
+      : meta.value.current_page
+  );
 }
 
-onMounted(() => {
-  fetchEmployees();
-});
+fetchEmployees();
 </script>
