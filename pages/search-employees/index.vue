@@ -101,7 +101,12 @@
     <div v-if="isLoading"></div>
 
     <div v-else-if="employees.length > 0">
-      <MainTable :employees="employees" :meta="meta" @change="changePage" />=
+      <MainTable
+        :employees="employees"
+        :meta="meta"
+        :changePage="changePage"
+        :afterDelete="afterDelete"
+      />
     </div>
 
     <div v-else class="text-center text-secondary-text py-10">
@@ -142,6 +147,14 @@ async function handleSearch() {
 
 function changePage(page) {
   employeeStore.searchEmployees(filters.value, page);
+}
+
+async function afterDelete() {
+  changePage(
+    employees.value.length == 1
+      ? meta.value.current_page - 1
+      : meta.value.current_page
+  );
 }
 
 const response = await useSanctumFetch("/api/filter");

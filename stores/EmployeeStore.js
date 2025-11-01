@@ -89,12 +89,6 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
     try {
       isLoading.value = true;
       await axiosClient.delete(`/api/employee/${id}`);
-
-      await getEmployees(
-        employees.value.length == 1
-          ? meta.value.current_page - 1
-          : meta.value.current_page
-      );
     } catch (error) {
       console.error("Gagal menghapus pegawai: ", error);
     } finally {
