@@ -5,13 +5,20 @@ import axiosClient from "~/axios";
 export const useEmployeeStore = defineStore("employeeStore", () => {
   const employees = ref([]);
   const meta = ref(null);
+  const metaForSearch = ref(null);
   const isLoading = ref(true);
   const pageBeforeEdit = ref("");
 
-  function $reset() {
-    employees.value = [];
-    meta.value = null;
-  }
+  const filters = ref({
+    name: "",
+    nip: "",
+    phone_number: "",
+    npwp: "",
+    golongan_id: "",
+    eselon_id: "",
+    position_id: "",
+    work_unit_id: "",
+  });
 
   async function addEmployee(formData) {
     try {
@@ -46,7 +53,7 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
         .get(`/api/search-employees?${params}`)
         .then((response) => {
           employees.value = response.data.data;
-          meta.value = response.data.meta;
+          metaForSearch.value = response.data.meta;
         });
     } catch (error) {
       console.error("Gagal mencari pegawai:", error);
@@ -100,14 +107,15 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
   return {
     employees,
     meta,
+    metaForSearch,
     isLoading,
     pageBeforeEdit,
+    filters,
     addEmployee,
     getEmployees,
     searchEmployees,
     deleteEmployee,
     getEmployeeById,
     updateEmployee,
-    $reset,
   };
 });

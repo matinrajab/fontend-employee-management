@@ -105,7 +105,7 @@
     <div v-else-if="employees.length > 0">
       <MainTable
         :employees="employees"
-        :meta="meta"
+        :meta="metaForSearch"
         :changePage="changePage"
         :afterDelete="afterDelete"
       />
@@ -123,21 +123,12 @@ definePageMeta({
 });
 
 const employeeStore = useEmployeeStore();
-const { employees, meta, isLoading } = storeToRefs(employeeStore);
+const { employees, metaForSearch, isLoading, pageBeforeEdit, filters } =
+  storeToRefs(employeeStore);
 
-employeeStore.$reset();
-employeeStore.getEmployees();
+pageBeforeEdit.value = "/search-employees";
 
-const filters = ref({
-  name: "",
-  nip: "",
-  phone_number: "",
-  npwp: "",
-  golongan_id: "",
-  eselon_id: "",
-  position_id: "",
-  work_unit_id: "",
-});
+employeeStore.searchEmployees(filters.value, metaForSearch.value?.current_page);
 
 const references = ref({
   golongans: [],
@@ -157,8 +148,8 @@ function changePage(page) {
 async function afterDelete() {
   changePage(
     employees.value.length == 1
-      ? meta.value.current_page - 1
-      : meta.value.current_page
+      ? metaForSearch.value.current_page - 1
+      : metaForSearch.value.current_page
   );
 }
 
