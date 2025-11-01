@@ -98,7 +98,9 @@
       </div>
     </form>
 
-    <div v-if="isLoading"></div>
+    <div v-if="isLoading">
+      <Loading />
+    </div>
 
     <div v-else-if="employees.length > 0">
       <MainTable
@@ -122,6 +124,9 @@ definePageMeta({
 
 const employeeStore = useEmployeeStore();
 const { employees, meta, isLoading } = storeToRefs(employeeStore);
+
+employeeStore.$reset();
+employeeStore.getEmployees();
 
 const filters = ref({
   name: "",

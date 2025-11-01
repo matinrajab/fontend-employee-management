@@ -7,6 +7,11 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
   const meta = ref(null);
   const isLoading = ref(true);
 
+  function $reset() {
+    employees.value = [];
+    meta.value = null;
+  }
+
   async function addEmployee(formData) {
     try {
       isLoading.value = true;
@@ -101,5 +106,6 @@ export const useEmployeeStore = defineStore("employeeStore", () => {
     deleteEmployee,
     getEmployeeById,
     updateEmployee,
+    $reset,
   };
 });
